@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>SAS TIK 2025/2026 - Penggunaan Media Sosial</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* BODY */
+body{
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+    overflow-x:hidden;
+}
+
+/* BACKGROUND UTAMA DENGAN IMG SRC */
+.bg-container img{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-1;
+}
+
+/* HEADER */
+.header{
+    position:relative;
+}
+.header img.banner{
+    width:100%;
+    max-width:1920px;
+    height:200px;
+    object-fit:cover;
+    display:block;
+    margin:0 auto;
+}
+.header img.walking{
+    position:absolute;
+    bottom:10px;
+    left:-50px;
+    width:200px; /* diperbesar */
+    animation: walk 8s linear infinite;
+    z-index:5;
+}
+@keyframes walk{
+    from{left:-50px;}
+    to{left:100%;}
+}
+
+/* NAVBAR */
+.navbar{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    background:rgba(255,255,255,0.85);
+    padding:10px 0;
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+.nav-btn{
+    width:140px;
+    height:70px;
+    border-radius:12px;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 6px 15px rgba(0,0,0,0.15);
+    background-color:#ffb6c1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.nav-btn img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:12px;
+    transition:0.3s;
+}
+.nav-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* DROPDOWN */
+.dropdown{position:relative;}
+.dropdown-menu{
+    position:absolute;
+    top:100%;
+    left:50%;
+    transform:translateX(-50%) translateY(-10px);
+    opacity:0;
+    min-width:200px;
+    background:rgba(255,228,240,0.9);
+    border-radius:15px;
+    box-shadow:0 18px 40px rgba(0,0,0,0.2);
+    padding:10px 12px;
+    z-index:1000;
+    border:1px solid #ffc1dd;
+    transition: all 0.3s ease;
+    pointer-events:none;
+}
+.dropdown-menu.show{
+    transform:translateX(-50%) translateY(0);
+    opacity:1;
+    pointer-events:auto;
+}
+.dropdown-menu .dropdown-link{
+    display:block;
+    font-size:14px;
+    color:#4a0b3b;
+    padding:6px 8px;
+    border-radius:10px;
+    text-decoration:none;
+    margin-bottom:4px;
+    transition:0.2s;
+}
+.dropdown-menu .dropdown-link:hover{
+    background:#ff7fb0;
+    color:white;
+    box-shadow:0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* PAGE */
+.page{
+    display:none;
+    min-height:100vh;
+    padding:100px 10%;
+}
+.page.active{display:block;}
+.bubble{
+    background:rgba(255,255,255,0.8);
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    margin-bottom:35px;
+}
+.profile-photo{
+    width:200px;
+    height:200px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:20px;
+    transition:0.4s;
+    box-shadow:0 0 30px rgba(108,140,255,0.9);
+}
+.profile-photo:hover{
+    transform:scale(1.12);
+    box-shadow:0 0 60px rgba(108,140,255,1);
+}
+
+/* TEMPAT FOTO DI HALAMAN */
+.photo-frame{
+    width:200px;
+    height:200px;
+    border:2px dashed #aaa;
+    border-radius:15px;
+    margin-top:20px;
+    overflow:hidden;
+}
+.photo-frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.section-flex{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:40px;
+    flex-wrap:wrap;
+}
+
+.section-flex img{
+    width:300px;
+    height:200px;
+    object-fit:cover;
+    border-radius:15px;
+}
+
+.section-text{
+    flex:1;
+    min-width:280px;
+}
+
+/* BACK TO TOP & MUTE BUTTON */
+.back-to-top{
+    position:fixed;
+    right:18px;
+    bottom:20px;
+    border-radius:999px;
+    border:none;
+    background:linear-gradient(135deg,#ffb6c1,#ff7fb0);
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:900;
+    color:white;
+    padding:8px 14px;       
+    transition:0.3s;
+}
+.back-to-top:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 30px rgba(0,0,0,0.18);
+}
+#mute-btn{right:130px;}
+
+/* CURSOR + CLICK RIPPLE */
+.cursor-shadow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 105, 180, 0.3);
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+    transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    z-index:9999;
+}
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 105, 180, 0.5);
+    width: 20px;
+    height: 20px;
+    transform: translate(-50%, -50%) scale(0);
+    pointer-events: none;
+    animation: ripple-effect 0.6s forwards;
+}
+@keyframes ripple-effect {
+    to {
+        transform: translate(-50%, -50%) scale(6);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND DENGAN IMG SRC -->
+<div class="bg-container">
+    <img src="86d2320dc91cfdf91a55a17f55c94a92.png" alt="Background Utama">
+</div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-shadow" id="cursor-shadow"></div>
+
+<!-- HEADER -->
+<header class="header">
+    <img src="hri (1280 x 200 px).png" class="banner" alt="Banner">
+    <img src="hri (31).png" class="walking" alt="Walking">
+</header>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-btn" onclick="showPage('beranda')">
+        <img src="Yellow Blue Colourful Retro Social Media Report Presentation.png" alt="Beranda">
+    </div>
+    <div class="dropdown">
+        <div class="nav-btn">
+            <img src="Yellow Blue Colourful Retro Social Media Report Presentation (1).png" alt="Analisis">
+        </div>
+        <div class="dropdown-menu">
+            <a class="dropdown-link" onclick="showPage('analisis-umum')">Analisis Umum</a>
+            <a class="dropdown-link" onclick="showPage('analisis-positif')">Dampak Positif</a>
+            <a class="dropdown-link" onclick="showPage('analisis-negatif')">Dampak Negatif</a>
+        </div>
+    </div>
+    <div class="nav-btn" onclick="showPage('solusi')">
+        <img src="Yellow Blue Colourful Retro Social Media Report Presentation (2).png" alt="Solusi">
+    </div>
+    <div class="nav-btn" onclick="showPage('tentang')">
+        <img src="Yellow Blue Colourful Retro Social Media Report Presentation (3).png" alt="Profile">
+    </div>
+    <div class="nav-btn" onclick="showPage('pustaka')">
+        <img src="tombol.png" alt="Pustaka">
+    </div>
+</nav>
+<!-- MAIN -->
+<main>
+
+<!-- BERANDA -->
+<section id="beranda" class="page active">
+    <div class="bubble">
+        <h2>🟣 Setiap Orang Berbeda dalam Menggunakan Media Sosial</h2>
+
+        <p>
+        Media sosial telah menjadi bagian dari kehidupan sehari-hari remaja masa kini.
+        Hampir setiap siswa memiliki akun media sosial yang digunakan untuk berbagai tujuan.
+        Namun, tidak semua orang menggunakan media sosial dengan cara yang sama.
+        </p>
+
+        <p>
+        Ada yang menggunakan media sosial untuk belajar dan mencari informasi,
+        ada yang menggunakannya sebagai sarana hiburan,
+        ada juga yang memanfaatkannya untuk berjualan atau membangun personal branding.
+        Perbedaan ini menunjukkan bahwa setiap individu memiliki kebutuhan dan tujuan yang berbeda.
+        </p>
+
+        <p>
+        Oleh karena itu, kita tidak bisa menyamaratakan penggunaan media sosial.
+        Dampaknya bisa positif maupun negatif tergantung pada bagaimana seseorang
+        menggunakan dan mengontrol dirinya saat berada di dunia digital.
+        </p>
+
+        <h3>🎯 Tujuan Website</h3>
+        <ul>
+            <li>Menjelaskan bagaimana perbedaan penggunaan media sosial terjadi</li>
+            <li>Menganalisis dampak positif dan negatif media sosial</li>
+            <li>Memberikan solusi agar media sosial digunakan secara bijak</li>
+        </ul>
+
+        <div class="photo-frame"><img src="images (1).png"></div>
+        <div class="photo-frame"><img src="images.png"></div>
+        <div class="photo-frame"><img src="images (1).jfif"></div>
+    </div>
+</section>
+
+<!-- ANALISIS UMUM -->
+<section id="analisis-umum" class="page">
+    <div class="bubble">
+        <h2>📊 Analisis Umum Penggunaan Media Sosial</h2>
+
+        <p>
+        Media sosial adalah platform digital yang memungkinkan pengguna
+        untuk berkomunikasi, berbagi informasi, serta mengekspresikan diri.
+        Dalam kehidupan remaja, media sosial sering menjadi ruang untuk
+        mencari identitas dan pengakuan sosial.
+        </p>
+
+        <p>
+        Perbedaan penggunaan media sosial dipengaruhi oleh beberapa faktor,
+        seperti lingkungan keluarga, pertemanan, tingkat literasi digital,
+        serta kemampuan mengontrol waktu.
+        </p>
+
+        <h3>Faktor yang Mempengaruhi</h3>
+
+        <p><b>1. Tujuan Penggunaan</b><br>
+        Seseorang yang menggunakan media sosial untuk belajar
+        tentu akan berbeda dengan yang hanya mencari hiburan.</p>
+
+        <p><b>2. Kontrol Diri</b><br>
+        Individu dengan kontrol diri yang baik mampu membatasi waktu penggunaan.</p>
+
+        <p><b>3. Lingkungan Sosial</b><br>
+        Lingkungan sangat mempengaruhi gaya komunikasi di media sosial.</p>
+
+        <p><b>4. Tingkat Kedewasaan</b><br>
+        Kedewasaan berpikir menentukan cara seseorang merespon komentar
+        atau informasi yang diterima.</p>
+
+        <p>
+        Dari analisis ini dapat disimpulkan bahwa media sosial bersifat netral.
+        Dampaknya tergantung pada cara pengguna memanfaatkannya.
+        </p>
+
+        <div class="photo-frame"><img src="images (2).jfif"></div>
+        <div class="photo-frame"><img src="images (3).jfif"></div>
+        <div class="photo-frame"><img src="images (4).jfif"></div>
+    </div>
+</section>
+
+<!-- ANALISIS POSITIF -->
+<section id="analisis-positif" class="page">
+    <div class="bubble">
+        <h2>✅ Dampak Positif Media Sosial</h2>
+        <br>
+        <h3>1. Mempermudah Akses Informasi</h3>
+        <p>
+            Informasi pendidikan, berita, dan pengetahuan dapat diakses dengan cepat. 
+            Hal ini membantu siswa memperluas wawasan.
+        </p>
+
+        <h3>2. Sarana Kreativitas</h3>
+        <p>
+            Media sosial menjadi tempat menampilkan karya seperti desain,
+            video edukasi, dan tulisan inspiratif.
+        </p>
+
+        <h3>3. Memperluas Relasi</h3>
+        <p>
+            Seseorang dapat berteman dengan orang dari berbagai daerah
+            bahkan negara lain.
+        </p>
+
+        <h3>4. Media Promosi</h3>
+        <p>
+            Banyak pelajar yang mulai belajar berwirausaha melalui media sosial.
+        </p>
+
+        <div class="photo-frame"><img src="images (5).jfif" alt="Dampak Positif 1"></div>
+        <div class="photo-frame"><img src="images (6).jfif" alt="Dampak Positif 2"></div>
+        <div class="photo-frame"><img src="images.jfif" alt="Dampak Positif 3"></div>
+    </div>
+</section>
+
+<style>
+#analisis-positif h2 {
+    display: block;       /* pastikan h2 jadi blok penuh */
+    margin-bottom: 25px;  /* jarak ke nomor 1 */
+}
+
+#analisis-positif h3 {
+    display: block;       /* pastikan nomor 1 juga blok baru */
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+
+#analisis-positif p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Styling foto */
+.photo-frame {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.photo-frame img {
+    max-width: 90%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+</style>
+
+<!-- ANALISIS NEGATIF -->
+<section id="analisis-negatif" class="page">
+    <div class="bubble">
+        <h2>⚠ Dampak Negatif Media Sosial</h2>
+
+        <h3>1. Penyebaran Hoaks</h3>
+        <p>
+        Informasi yang tidak benar dapat tersebar dengan cepat
+        dan mempengaruhi banyak orang.
+        </p>
+
+        <h3>2. Cyberbullying</h3>
+        <p>
+        Perundungan digital dapat merusak kesehatan mental korban.
+        </p>
+
+        <h3>3. Kecanduan</h3>
+        <p>
+        Penggunaan berlebihan dapat mengganggu waktu belajar dan istirahat.
+        </p>
+
+        <h3>4. Perbandingan Sosial</h3>
+        <p>
+        Banyak remaja merasa kurang percaya diri karena membandingkan diri
+        dengan kehidupan orang lain di media sosial.
+        </p>
+
+        <div class="photo-frame"><img src="social-media-marketing-3d-icon-png-download-5862479.webp"></div>
+        <div class="photo-frame"><img src="social-media-marketing-digital-marketing-social-media-optimization-png-favpng-R3Q26FHpNs9Gm8Swwtwc4wxZT.jpg"></div>
+        <div class="photo-frame"><img src="Social-media-marketing-01-1080x675.webp"></div>
+    </div>
+</section>
+
+<!-- SOLUSI -->
+<section id="solusi" class="page">
+    <div class="bubble">
+        <h2>🌱 Solusi Bijak Menggunakan Media Sosial</h2>
+
+        <ul>
+            <li>Berpikir sebelum memposting sesuatu</li>
+            <li>Memeriksa kebenaran informasi sebelum membagikan</li>
+            <li>Menggunakan bahasa yang sopan</li>
+            <li>Mengatur waktu penggunaan setiap hari</li>
+            <li>Menggunakan media sosial untuk hal positif</li>
+        </ul>
+
+        <div class="photo-frame"><img src="Social_media_collection_2020s.png"></div>
+        <div class="photo-frame"><img src="241-2412013_social-media-marketing.png"></div>
+        <div class="photo-frame"><img src="axskma8xu.webp"></div>
+    </div>
+</section>
+
+<!-- PROFILE -->
+<section id="tentang" class="page">
+    <div class="bubble" style="text-align:center;">
+
+        <img src="WhatsApp Image 2026-02-27 at 14.20.24.jpeg" class="profile-photo" 
+        style="width:280px;height:280px;" alt="Foto Profile">
+
+        <h2>Maddie</h2>
+        <p>Kelas IX – Kelompok 95</p>
+        <p>SMP Santa Ursula</p>
+
+        <p>
+        Website ini dibuat untuk memenuhi tugas
+        Sumatif Akhir Semester (SAS) mata pelajaran TIK
+        Tahun Ajaran 2025/2026.
+        </p>
+
+        <p>
+        Saya memilih tema "Penggunaan Media Sosial"
+        karena media sosial sangat dekat dengan kehidupan remaja
+        dan penting untuk dipahami dampaknya.
+        </p>
+
+    </div>
+</section>
+
+<!-- PUSTAKA -->
+<section id="pustaka" class="page">
+    <div class="bubble">
+        <h2>📚 Daftar Pustaka</h2>
+
+        <p>1. Kementerian Komunikasi dan Informatika RI – Modul Literasi Digital.</p>
+        <p>2. UNICEF Indonesia – Panduan Keamanan Digital Remaja.</p>
+        <p>3. Kemendikbud RI – Etika Berinternet.</p>
+        <p>4. Artikel Pendidikan Digital tentang Dampak Media Sosial.</p>
+
+        <div class="photo-frame"><img src="cozy-school-library-illustrations-filled-with-books-learning_1021165-11287.avif"></div>
+        <div class="photo-frame"><img src="vibrant-illustration-generated-ai-depicts-two-children-happily-engrossed-books-colorful-library-filled-374125312.webp"></div>
+    </div>
+</section>
+
+</main>
+<!-- AUDIO -->
+<audio id="bg-music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- BACK TO TOP BUTTON -->
+<button id="top-btn">Back To Top</button>
+
+<footer style="text-align:center;padding:25px;background:rgba(255,255,255,0.9);">
+© 2026 | SAS TIK Kelas 9 – Maddie 95
+</footer>
+
+<style>
+
+/* FOTO SEJAJAR */
+.foto-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    margin-top:20px;
+    flex-wrap:wrap;
+}
+
+.foto-container img{
+    width:30%;
+    max-width:300px;
+    height:200px;
+    object-fit:cover;
+    border-radius:15px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.2);
+    transition:0.3s;
+}
+
+.foto-container img:hover{
+    transform:scale(1.05);
+}
+
+/* BACK TO TOP */
+#top-btn{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    background:#6c5ce7;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:30px;
+    font-size:14px;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    opacity:0;
+    visibility:hidden;
+    transition:0.3s;
+    z-index:999;
+}
+
+#top-btn.show{
+    opacity:1;
+    visibility:visible;
+}
+
+#top-btn:hover{
+    background:#4834d4;
+    transform:translateY(-3px);
+}
+
+/* ================= TAMBAHAN GRID FOTO 3 SEJAJAR ================= */
+.photo-frame{
+    display:inline-block;
+    margin:10px;
+}
+
+.page .bubble{
+    display:block;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+}
+
+/* Animasi muncul saat page aktif */
+.page{
+    opacity:0;
+    transform:translateY(20px);
+    transition:0.5s ease;
+}
+.page.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* Ripple lebih besar */
+.ripple{
+    position:fixed;
+    border-radius:50%;
+    background:rgba(255,105,180,0.5);
+    width:30px;
+    height:30px;
+    transform:translate(-50%,-50%) scale(0);
+    pointer-events:none;
+    animation:ripple-effect 0.7s ease-out forwards;
+    z-index:9998;
+}
+
+@keyframes ripple-effect{
+    to{
+        transform:translate(-50%,-50%) scale(10);
+        opacity:0;
+    }
+}
+
+/* Cursor glow lebih kuat */
+.cursor-shadow{
+    box-shadow:
+        0 0 20px rgba(255,105,180,0.8),
+        0 0 40px rgba(255,20,147,0.6),
+        0 0 60px rgba(255,105,180,0.4);
+}
+
+/* Tombol mute */
+#mute-btn{
+    position:fixed;
+    bottom:30px;
+    right:150px;
+    background:#ff7fb0;
+    color:white;
+    border:none;
+    padding:12px 16px;
+    border-radius:30px;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    z-index:999;
+    transition:0.3s;
+}
+#mute-btn:hover{
+    transform:scale(1.1);
+}
+/* ================= FULL WIDTH & HEIGHT FIT PERFECT ================= */
+
+.photo-frame{
+    width:200px;
+    height:200px;
+    overflow:hidden;
+    position:relative;
+    border-radius:15px;
+    display:inline-block;
+}
+
+/* Bikin gambar benar-benar isi penuh */
+.photo-frame img{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:translate(-50%, -50%);
+}
+
+/* Supaya 3 sejajar dan rata tengah */
+.page .bubble{
+    text-align:center;
+}
+
+/* Hilangkan kemungkinan ada space inline */
+.photo-frame{
+    vertical-align:top;
+}
+</style>
+
+<script>
+
+// BACK TO TOP
+const topBtn = document.getElementById("top-btn");
+
+window.addEventListener("scroll", function(){
+    if(window.scrollY > 300){
+        topBtn.classList.add("show");
+    } else {
+        topBtn.classList.remove("show");
+    }
+});
+
+topBtn.addEventListener("click", function(){
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+});
+
+// OPTIONAL: AUTO PLAY MUSIC (boleh dihapus kalau tidak perlu)
+const music = document.getElementById("bg-music");
+music.volume = 0.3;
+music.play().catch(()=>{});
+
+// ================= SHOW PAGE FUNCTION =================
+function showPage(id){
+    document.querySelectorAll('.page').forEach(p=>{
+        p.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// ================= CURSOR FOLLOW =================
+const cursor = document.getElementById("cursor-shadow");
+
+document.addEventListener("mousemove",(e)=>{
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
+});
+
+// ================= RIPPLE CLICK EFFECT =================
+document.addEventListener("click",(e)=>{
+    const ripple = document.createElement("div");
+    ripple.classList.add("ripple");
+    ripple.style.left = e.clientX + "px";
+    ripple.style.top = e.clientY + "px";
+    document.body.appendChild(ripple);
+
+    setTimeout(()=>{
+        ripple.remove();
+    },700);
+});
+
+// ================= DROPDOWN CLICK =================
+document.querySelectorAll(".dropdown").forEach(drop=>{
+    drop.addEventListener("click",()=>{
+        drop.querySelector(".dropdown-menu").classList.toggle("show");
+    });
+});
+
+// ================= MUTE BUTTON =================
+const muteBtn = document.getElementById("mute-btn");
+muteBtn.addEventListener("click",()=>{
+    if(music.paused){
+        music.play();
+        muteBtn.textContent="🔊";
+    }else{
+        music.pause();
+        muteBtn.textContent="🔇";
+    }
+});
+</script>
+
+</body>
+</html>

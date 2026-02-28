@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Quicksand:wght@400;600&display=swap');
+
+:root{
+    --blue: #4a74ff;
+    --blue-soft: #e1e7ff;
+    --pink: #ffb6c1;
+    --pink-soft: #ffe4f0;
+    --green: #4fd1a1;
+    --green-soft: #d9fff1;
+    --dark: #1b1b2f;
+    --text: #252544;
+    --bg: #ffe4f4;
+    --shadow-soft: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Quicksand', system-ui, sans-serif;
+    background-color: var(--bg);
+    color:var(--text);
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-attachment:fixed;
+    line-height:1.7;
+    text-rendering:optimizeLegibility;
+}
+
+/* ================= HEADER FIX 1280 x 200 ================= */
+
+.header{
+    position:relative;
+    width:1280px;
+    height:200px;
+    margin:0 auto;
+    overflow:hidden;
+    border-bottom-left-radius:30px;
+    border-bottom-right-radius:30px;
+    box-shadow:var(--shadow-soft);
+    background:linear-gradient(135deg,#ffe4f4,#e1e7ff);
+}
+
+.header-banner{
+    width:1280px;
+    height:200px;
+    object-fit:cover;
+}
+
+/* SNOOPY / ORANG JALAN (1/6 tinggi banner) */
+.header-snoopy{
+    position:absolute;
+    bottom:10px;
+    width:33px;
+    animation:snoopy-walk 8s linear infinite;
+}
+
+.header-snoopy img{
+    width:100%;
+    transform-origin:bottom center;
+    animation:legs-walk 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes snoopy-walk{
+    0%{ left:-50px; }
+    100%{ left:100%; }
+}
+
+@keyframes legs-walk{
+    0%{ transform:rotate(0deg);}
+    50%{ transform:rotate(5deg);}
+    100%{ transform:rotate(0deg);}
+}
+
+/* Responsive header */
+@media (max-width:1280px){
+    .header{
+        width:100%;
+        height:200px;
+    }
+    .header-banner{
+        width:100%;
+        height:200px;
+    }
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:#ffffffee;
+    box-shadow:0 3px 10px rgba(0,0,0,0.06);
+    backdrop-filter: blur(6px);
+}
+
+.nav-list{
+    list-style:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;               
+    gap:8px;
+    padding:10px 24px;
+    overflow-x:auto;
+}
+
+.nav-img{
+    width:120px;
+    cursor:pointer;
+    transition: transform 0.3s, filter 0.3s, box-shadow 0.3s;
+    border-radius:18px;                  
+}
+
+.nav-img:hover{
+    transform: scale(1.08);
+    filter: brightness(1.15);
+    box-shadow:0 10px 20px rgba(0,0,0,0.18);
+}
+
+.nav-link.current .nav-img{
+    transform: scale(1.03);
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.18));
+}
+
+/* ================= MAIN CONTENT ================= */
+
+.main{
+    max-width:1100px;
+    margin:24px auto 40px auto;
+    padding:0 16px;
+}
+
+.section-title{
+    font-family:'Poppins', sans-serif;
+    font-size:26px;
+    margin-bottom:16px;
+    color:var(--dark);
+}
+
+.page{
+    display:none;
+    animation:fadeIn 0.4s ease;
+    margin-bottom:32px;
+    background:rgba(255,255,255,0.9);
+    border-radius:24px;
+    box-shadow:var(--shadow-soft);
+    padding:24px 22px 26px 22px;
+}
+
+.page.active{
+    display:block;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(8px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* ================= IMAGE SLOT ================= */
+
+.image-slot{
+    margin-top:16px;
+    text-align:center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image-slot img{
+    max-width:100%;
+    border-radius:12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image-slot:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.image-slot img:hover{
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    text-align:center;
+    padding:14px 10px;
+    background:#f7d4e0;
+    border-radius:16px;
+    box-shadow:var(--shadow-soft);
+    margin:0 16px 20px 16px;
+    font-size:14px;
+    color:#4a0b3b;
+}
